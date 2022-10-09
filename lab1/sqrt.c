@@ -7,6 +7,7 @@
 #include <arpa/inet.h> 
 #include <netinet/in.h>
 #include <errno.h>
+#include <math.h>
 
 #define BUFSIZE 4
 #define BUFNUM 4
@@ -20,7 +21,7 @@ int main(int argc, char *argv[]) {
     int port = atoi(argv[1]);
 
     fflush(stdout);
-    printf("sqr started on port %d\n", port);
+    printf("sqrt started on port %d\n", port);
     memset(&addr, 0, sizeof(addr)); 
     memset(&cliaddr, 0, sizeof(cliaddr));
 
@@ -33,6 +34,7 @@ int main(int argc, char *argv[]) {
     float a;
     unsigned char first_num[BUFNUM], res[BUFNUM];
 
+    fflush(stdout);
     int len = sizeof(addr);
     bytes_read = recvfrom(sock, buf, BUFSIZE, MSG_WAITALL, ( struct sockaddr *) &cliaddr, &len);
     if (bytes_read == -1) {
@@ -45,9 +47,9 @@ int main(int argc, char *argv[]) {
 
     a = *(float *) first_num;
 
-    float sqrt = a * a;
+    float sqrt = sqrtf(a);
     memcpy(res, (unsigned char*) (&sqrt), 4);
-    printf("sqr float: %f\n", sqrt);
+    printf(" sqrt float: %f\n", sqrt);
     int s = sendto(sock, res, 4, MSG_CONFIRM, (const struct sockaddr *) &cliaddr, sizeof(cliaddr));
     close(sock);
     return 0;
