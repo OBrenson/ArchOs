@@ -2,62 +2,6 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-#define SIZET 128
-struct PATTERN
-{
-    unsigned char r, g, b;
-};
-struct PATTERN pixels[SIZET][SIZET];
-
-GLfloat body[][3] =
-    {{0.2f, 0.2f, -0.8f}, //top
-     {-0.2f, 0.2f, -0.8f},
-     {-0.2f, 0.2f, 0.2f},
-     {0.2f, 0.2f, 0.2f},
-
-     {0.2f, -0.2f, 0.2f}, //bottom
-     {-0.2f, -0.2f, 0.2f},
-     {-0.2f, -0.2f, -0.8f},
-     {0.2f, -0.2f, -0.8f},
-
-     {0.2f, 0.2f, 0.2f}, //front
-     {-0.2f, 0.2f, 0.2f},
-     {-0.2f, -0.2f, 0.2f},
-     {0.2f, -0.2f, 0.2f},
-
-     {0.2f, -0.2f, -0.8f}, //back
-     {-0.2f, -0.2f, -0.8f},
-     {-0.2f, 0.2f, -0.8f},
-     {0.2f, 0.2f, -0.8f},
-
-     {-0.2f, 0.2f, 0.2f}, //left
-     {-0.2f, 0.2f, -0.8f},
-     {-0.2f, -0.2f, -0.8f},
-     {-0.2f, -0.2f, 0.2f},
-
-     {0.2f, 0.2f, -0.8f}, //right
-     {0.2f, 0.2f, 0.2f},
-     {0.2f, -0.2f, 0.2f},
-     {0.2f, -0.2f, -0.8f}};
-
-GLfloat lfLeg[][3] =
-    {{-0.1f, -0.2f, 0.2f},
-     {-0.2f, -0.2f, 0.2f}, //back
-     {-0.2f, -0.5f, 0.2f},
-     {-0.1f, -0.5f, 0.2f},
-
-     {-0.1f, -0.2f, -0.2f},
-     {-0.2f, -0.2f, -0.2f}, //front
-     {-0.2f, -0.5f, -0.2f},
-     {-0.1f, -0.5f, -0.2f},
-     
-     {-0.1f, -0.2f, -0.2f},
-     {-0.1f, -0.2f, -0.1f}, //left
-     {-0.1f, -0.5f, -0.1f},
-     {-0.1f, -0.5f, -0.2f},
-
-     };
-
 void displayBackground()
 {
     GLubyte mask[128];
@@ -75,7 +19,7 @@ void displayBackground()
     glEnable(GL_POLYGON_STIPPLE);
     glLoadIdentity();
     glTranslatef(0.0, 0.0, 0.9);
-    glColor3f(0.0, 0.55, 0.2); // Зеленый
+    glColor3f(0.0, 0.8, 0.2); // Зеленый
     glPolygonStipple(mask);
     glRectf(-1, 0, 1, -1);
     glDisable(GL_POLYGON_STIPPLE);
@@ -83,7 +27,7 @@ void displayBackground()
 
     glLoadIdentity();
     glTranslatef(0.0, 0.0, 0.9);
-    glColor3f(0.0, 0.6, 0.9); // blue
+    glColor3f(0.22,  0.69, 0.87); // blue
     glPolygonStipple(mask);
     glRectf(-1, 1, 1, 0);
     glEnd();
@@ -102,32 +46,68 @@ void drawRect(GLfloat body[][3], int len, float color[3])
     glEnd();
 }
 
-void drawCaw(GLUquadricObj *q) {
-    gluSphere(q, 0.3, 30, 30);
-    glTranslatef(0.3, 0.0, 0.0);
-    gluSphere(q, 0.3, 30, 30);
-    glTranslatef(0.0, -0.3, -0.1);
-    gluSphere(q, 0.1, 30, 30);
+void drawCaw(GLUquadricObj *q, float bodyC[], float headC[])
+{
+    // body
+    // gluSphere(q, 0.3, 30, 30);
+    glColor3f(bodyC[0], bodyC[1], bodyC[2]);
+    glutSolidCube(0.4);
+    glTranslatef(0.34, 0.0, 0.0);
+    // gluSphere(q, 0.3, 30, 30);
+    glutSolidCube(0.4);
+
+    glColor3f(1.0, 1.0, 1.0);
+    // legs
+    glTranslatef(0.0, -0.27, -0.1);
+    // gluSphere(q, 0.1, 30, 30);
+    glutSolidCube(0.14);
     glColor3f(0.0, 0.0, 0.0);
     glTranslatef(0.0, 0.0, +0.2);
-    gluSphere(q, 0.1, 30, 30);
+    // gluSphere(q, 0.1, 30, 30);
+    glutSolidCube(0.14);
     glTranslatef(-0.45, 0.0, 0.0);
-    gluSphere(q, 0.1, 30, 30);
+    // gluSphere(q, 0.1, 30, 30);
+    glutSolidCube(0.14);
     glColor3f(1.0, 1.0, 1.0);
     glTranslatef(0.0, 0.0, -0.2);
-    gluSphere(q, 0.1, 30, 30);
-    glTranslatef(-0.1, +0.4, +0.1);
-    gluSphere(q, 0.2, 30, 30);
-    glTranslatef(-0.20, +0.05, +0.05);
-    gluSphere(q, 0.05, 30, 30);
-    glTranslatef(0.0, +0.04, -0.01);
+    // gluSphere(q, 0.1, 30, 30);
+    glutSolidCube(0.14);
+
+    // head
+    glColor3f(headC[0], headC[1], headC[2]);
+    glTranslatef(-0.2, +0.4, 0.1);
+    glutSolidCube(0.26);
+
+    // nose
+    glColor3f(0.737, 0.560, 0.56);
+    glTranslatef(-0.15, -0.034, +0.0);
+    // gluSphere(q, 0.05, 30, 30);
+    glutSolidCube(0.17);
+    glColor3f(0.0, 0.0, 0.0);
+
+    // eyes
+    glTranslatef(+0.025, +0.12, +0.07);
     gluSphere(q, 0.03, 30, 30);
+    glTranslatef(0.0, 0.0, -0.14);
+    gluSphere(q, 0.03, 30, 30);
+
+    // horns
+    glColor3f(0.5, 0.5, 0.5);
+    glTranslatef(+0.1, +0.05, -0.07);
+    glutSolidCube(0.07);
+    glTranslatef(+0.0, +0.00, +0.27);
+    glutSolidCube(0.07);
+
+    glColor3f(0.1, 0.1, 0.1);
+    glTranslatef(+0.87, -0.091, -0.1);
+    glutSolidCube(0.06);
+
     glLoadIdentity();
 }
 
 void display(void)
 {
-    GLfloat lp[4] = {0.2, 0.1, 0.0, 1}; // x,y,z лампочки
+    GLfloat lp[4] = {-0.3,0.3,+0.2,1};
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -135,17 +115,36 @@ void display(void)
     glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
     glEnable(GL_DEPTH_TEST);               // Разрешить работу Z-буфера
     glLightfv(GL_LIGHT0, GL_POSITION, lp); // Загрузить x,y,z
-    glEnable(GL_LIGHT0);                   // Разрешить 0-ю лампочку
+    glEnable(GL_LIGHT0);
     glEnable(GL_LIGHTING);                 // Включить лампочку
     glEnable(GL_COLOR_MATERIAL);           // Разрешить материал
     glEnable(GL_NORMALIZE);
 
     GLUquadricObj *q = gluNewQuadric();
+
     gluQuadricDrawStyle(q, GLU_FILL);
     glLoadIdentity();
-    glColor3f(1.0, 1.0, 1.0);
-    glRotatef(-90.0, 0.0, 30.0, 0.0);
-    drawCaw(q);
+
+    glScaled(0.5, 0.5, 0.5);
+    glRotatef(-45.0, 1.0, 4.0, -1.0);
+    glTranslatef(-0.8, -0.5, 0.4);
+    drawCaw(q, (float[]){0.85, 0.85, 0.85}, (float[]){0.7, 0.7, 0.7});
+
+    glScaled(0.5, 0.5, 0.5);
+    glRotatef(-135.0, 0.0, 4.0, -0.5);
+    glTranslatef(-1.8, -0.5, 0.4);
+    drawCaw(q, (float[]){0.4, 0.4, 0.4}, (float[]){0.7, 0.7, 0.7});
+
+    glScaled(0.47, 0.47, 0.47);
+    glRotatef(135.0, 0.0, 4.0, -0.35);
+    glTranslatef(-1.8, -0.2, 0.2);
+    drawCaw(q, (float[]){0.6, 0.6, 0.6}, (float[]){0.7, 0.7, 0.7});
+
+    glScaled(0.6, 0.6, 0.6);
+    glRotatef(-45.0, 1.3, 2.0, -0.3);
+    glTranslatef(0.1, -1.4, 0.2);
+    drawCaw(q, (float[]){0.9, 0.9, 0.9}, (float[]){0.7, 0.7, 0.7});
+
     gluDeleteQuadric(q);
     glFlush();
 
