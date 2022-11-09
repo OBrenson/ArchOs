@@ -49,28 +49,22 @@ void drawRect(GLfloat body[][3], int len, float color[3])
 void drawCaw(GLUquadricObj *q, float bodyC[], float headC[])
 {
     // body
-    // gluSphere(q, 0.3, 30, 30);
     glColor3f(bodyC[0], bodyC[1], bodyC[2]);
     glutSolidCube(0.4);
     glTranslatef(0.34, 0.0, 0.0);
-    // gluSphere(q, 0.3, 30, 30);
     glutSolidCube(0.4);
 
     glColor3f(1.0, 1.0, 1.0);
     // legs
     glTranslatef(0.0, -0.27, -0.1);
-    // gluSphere(q, 0.1, 30, 30);
     glutSolidCube(0.14);
     glColor3f(0.0, 0.0, 0.0);
     glTranslatef(0.0, 0.0, +0.2);
-    // gluSphere(q, 0.1, 30, 30);
     glutSolidCube(0.14);
     glTranslatef(-0.45, 0.0, 0.0);
-    // gluSphere(q, 0.1, 30, 30);
     glutSolidCube(0.14);
     glColor3f(1.0, 1.0, 1.0);
     glTranslatef(0.0, 0.0, -0.2);
-    // gluSphere(q, 0.1, 30, 30);
     glutSolidCube(0.14);
 
     // head
@@ -81,7 +75,6 @@ void drawCaw(GLUquadricObj *q, float bodyC[], float headC[])
     // nose
     glColor3f(0.737, 0.560, 0.56);
     glTranslatef(-0.15, -0.034, +0.0);
-    // gluSphere(q, 0.05, 30, 30);
     glutSolidCube(0.17);
     glColor3f(0.0, 0.0, 0.0);
 
@@ -102,7 +95,7 @@ void drawCaw(GLUquadricObj *q, float bodyC[], float headC[])
     glTranslatef(+0.87, -0.091, -0.1);
     glutSolidCube(0.06);
 
-    glLoadIdentity();
+    glPopMatrix();
 }
 
 void display(void)
@@ -123,27 +116,39 @@ void display(void)
     GLUquadricObj *q = gluNewQuadric();
 
     gluQuadricDrawStyle(q, GLU_FILL);
-    glLoadIdentity();
 
+    glPushMatrix();
+    glLoadIdentity();
     glScaled(0.5, 0.5, 0.5);
     glRotatef(-45.0, 1.0, 4.0, -1.0);
-    glTranslatef(-0.8, -0.5, 0.4);
+    glTranslatef(-1.3, -0.5, 0.4);
     drawCaw(q, (float[]){0.85, 0.85, 0.85}, (float[]){0.7, 0.7, 0.7});
 
-    glScaled(0.5, 0.5, 0.5);
+    glPushMatrix();
+    glLoadIdentity();
+    glScaled(0.42, 0.42, 0.42);
     glRotatef(-135.0, 0.0, 4.0, -0.5);
-    glTranslatef(-1.8, -0.5, 0.4);
-    drawCaw(q, (float[]){0.4, 0.4, 0.4}, (float[]){0.7, 0.7, 0.7});
+    glTranslatef(-2.25, -0.0, 0.4);
+    drawCaw(q, (float[]){0.4, 0.4, 0.4}, (float[]){0.3, 0.3, 0.3});
 
-    glScaled(0.47, 0.47, 0.47);
-    glRotatef(135.0, 0.0, 4.0, -0.35);
-    glTranslatef(-1.8, -0.2, 0.2);
+    glPushMatrix();
+    glLoadIdentity();
+    glScaled(1.8, 1.8, 1.8);
+    glRotatef(-70.0, 0.0, 4.0, 0.0);
+    glTranslatef(0.0, -0.5, 0.0);
     drawCaw(q, (float[]){0.6, 0.6, 0.6}, (float[]){0.7, 0.7, 0.7});
 
-    glScaled(0.6, 0.6, 0.6);
-    glRotatef(-45.0, 1.3, 2.0, -0.3);
-    glTranslatef(0.1, -1.4, 0.2);
-    drawCaw(q, (float[]){0.9, 0.9, 0.9}, (float[]){0.7, 0.7, 0.7});
+    glPushMatrix();
+    glLoadIdentity();
+    glScaled(0.3, 0.3, 0.3);
+    glRotatef(+90, 0, 1, 0);
+    drawCaw(q, (float[]){0.65, 0.65, 0.65}, (float[]){0.7, 0.7, 0.7});
+
+    glPushMatrix();
+    glLoadIdentity();
+    glScaled(0.3, 0.3, 0.3);
+    glTranslatef(-2.0, 0.0, 0.0);
+    drawCaw(q, (float[]){0.309804, 0.184314, 0.184314}, (float[]){0.36, 0.25, 0.20});
 
     gluDeleteQuadric(q);
     glFlush();
