@@ -33,19 +33,6 @@ void displayBackground()
     glEnd();
 }
 
-void drawRect(GLfloat body[][3], int len, float color[3])
-{
-    glLoadIdentity();
-    glRotatef(90.0, 0.0, 0.2, 0.0);
-    glBegin(GL_QUADS);
-    glColor3f(color[0], color[1], color[2]);
-    for (int i = 0; i < len; i++)
-    {
-        glVertex3f(body[i][0], body[i][1], body[i][2]);
-    }
-    glEnd();
-}
-
 void drawCaw(GLUquadricObj *q, float bodyC[], float headC[])
 {
     // body
