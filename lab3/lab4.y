@@ -3,8 +3,8 @@
 #include <string.h>
 #include <math.h>
 
-int counter;
 int res = 0;
+int s = 1;
 
 void yyerror(const char *str)
 {
@@ -20,9 +20,22 @@ main()
         yyparse();
 } 
 
+int check(int num) {
+        if(s == 1) {
+                if ((long) 0x7FFFFFFF - (long) (res * 16) < num) {
+                        return 1;
+                }
+        } else {
+                if ((long) -0x7FFFFFFF + (long)(res * 16) > -num) {
+                        return -1;
+                }
+        }
+        return 0;
+}
+
 %}
 
-%token START LETTER DIGIT END ERROR
+%token START LETTER DIGIT END ERROR SIGN
 
 %%
 
@@ -30,7 +43,19 @@ b :
         |
         b beg
 
-beg: begin symbols ending
+beg: sign begin symbols ending
+
+sign:
+        |
+        SIGN
+        {
+            if (strcmp($$,"-") == 0) {
+                s = -1;
+            }
+            if (strcmp($$,"+") == 0) {
+                s = 1;
+            }
+        }
 
 symbols: 
         |
@@ -44,7 +69,6 @@ symbol:
 begin:
         START
         {
-            counter = 0;
             res = 0;
         }
         ;
@@ -53,8 +77,17 @@ sym_letter:
         LETTER
         {
             int num = (int)strtol($$, NULL, 16);
-            res = res * 16 + num;
-            counter++;
+            int ch = check(num);
+            if (ch == 0) {
+                res = res * 16 + num;
+            } else {
+                if (ch == 1) {
+                        yyerror("number is too big");
+                } else {
+                        yyerror("number is too small");
+                } 
+                return -1;
+            }
         }
         ;
 
@@ -62,15 +95,25 @@ sym_digit:
         DIGIT
         {
            int num = atoi($$);
-           res = res * 16 + num;
-           counter++;
+           int ch = check(num);
+           if (ch == 0) {
+                res = res * 16 + num;
+           } else {
+                if (ch == 1) {
+                        yyerror("number is too big");
+                } else {
+                        yyerror("number is too small");
+                } 
+                return -1;
+            }
         }
         ;
 
 ending:
         END
         {
-            printf("\t%d\n", res);
+            printf("\t%d\n", res * s);
+            s = 1;
         }
         ;
 

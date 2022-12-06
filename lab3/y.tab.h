@@ -49,7 +49,8 @@ extern int yydebug;
     LETTER = 259,
     DIGIT = 260,
     END = 261,
-    ERROR = 262
+    ERROR = 262,
+    SIGN = 263
   };
 #endif
 /* Tokens.  */
@@ -58,6 +59,7 @@ extern int yydebug;
 #define DIGIT 260
 #define END 261
 #define ERROR 262
+#define SIGN 263
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
